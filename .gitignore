@@ -1,0 +1,4 @@
+# Ignore csrc and the two files made by remoting with VSCode
+csrc
+.accessed
+ucli.key

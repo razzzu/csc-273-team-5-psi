@@ -1,0 +1,4 @@
+# This is to allow the sim directory in git since you cannot put directories without a file
+# Also servers to ignore all the compiled tests in git
+*
+!.gitignore
