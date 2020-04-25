@@ -1,4 +1,4 @@
-`include "fifo.v"
+`include "simple_fifo.v"
 
 module simple_fifo_fixture;
 
@@ -9,7 +9,7 @@ wire full, empty;
 
 integer cycle;
 
-fifo f (.in_data(in_data), .push(push), .pop(pop),
+simple_fifo f (.in_data(in_data), .push(push), .pop(pop),
         .out_data(out_data), .full(full), .empty(empty),
         .clk(clk), .rst(rst));
 

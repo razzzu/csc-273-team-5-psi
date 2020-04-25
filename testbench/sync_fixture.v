@@ -16,8 +16,8 @@ module sync_test;
         if(!rrst)   rptr <= 0;
         else        rptr <= rptr + 1;
 
-    initial 
-        $vcdpluson;
+    // initial 
+    //     $vcdpluson;
 
     initial begin        
         {wrst, rrst} = 2'b00;

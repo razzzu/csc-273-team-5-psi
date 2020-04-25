@@ -1,5 +1,5 @@
 `include "fifo.v"
-`include "beh_fifo.v"
+// `include "beh_fifo.v"
 
 module fifo_fixture();
 
@@ -11,7 +11,7 @@ module fifo_fixture();
     wire rempty, wfull, rempty_beh, wfull_beh;
 
     fifo #(.ASIZE(ASIZE), .DSIZE(DSIZE)) dut (.wdata(wdata), .w_en(w_en), .r_en(r_en), .wclk(wclk), .rclk(rclk), .wrst_n(wrst_n), .rrst_n(rrst_n), .rdata(rdata), .rempty(rempty), .wfull(wfull));
-    beh_fifo #(.ASIZE(ASIZE), .DSIZE(DSIZE)) beh (.wdata(wdata), .w_en(w_en), .r_en(r_en), .wclk(wclk), .rclk(rclk), .wrst_n(wrst_n), .rrst_n(rrst_n), .rdata(rdata_beh), .rempty(rempty_beh), .wfull(wfull_beh));
+    // beh_fifo #(.ASIZE(ASIZE), .DSIZE(DSIZE)) beh (.wdata(wdata), .w_en(w_en), .r_en(r_en), .wclk(wclk), .rclk(rclk), .wrst_n(wrst_n), .rrst_n(rrst_n), .rdata(rdata_beh), .rempty(rempty_beh), .wfull(wfull_beh));
 
     initial
         $vcdpluson;
