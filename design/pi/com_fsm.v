@@ -14,7 +14,7 @@ module com_fsm (output reg grant, w_en,
         w_en=1'b0;
         case(state)
             idle: if(req)   begin grant=1'b1;            next_state=data; end
-                    else    begin grant=1'b1;            next_state=data; end 
+                    else    begin                        next_state=idle; end 
 
             data: if(req)   begin grant=1'b1; w_en=1'b1; next_state=data; end
                     else    begin grant=1'b0; w_en=1'b1; next_state=rest_1; end
