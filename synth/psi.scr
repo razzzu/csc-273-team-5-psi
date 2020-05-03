@@ -1,0 +1,43 @@
+remove_design -designs
+
+analyze -format verilog -vcs { +incdir+design/pi/+design/si/+design/fifo/+ } {./design/psi.v}
+elaborate psi
+
+#read_file -format verilog {./design/fifo/fifo.v}
+set current_design psi
+
+link
+
+create_clock -period 5.0 p_clk
+create_clock -period 5.0 s_clk
+
+set_input_delay -clock p_clk -min 0.3 {data req pkt_end}
+set_input_delay -clock p_clk -max 1.0 {data req pkt_end}
+set_output_delay -clock p_clk -min 0.3 {grant ready}
+set_output_delay -clock p_clk -max 1.0 {grant ready}
+
+set_input_delay -clock s_clk -min 0.2 {}
+set_input_delay -clock s_clk -max 0.6 {}
+set_output_delay -clock s_clk -min 0.2 {s_data}
+set_output_delay -clock s_clk -max 0.6 {s_data}
+
+set_false_path -from s_clk -to p_clk
+set_false_path -from p_clk -to s_clk
+
+set_dont_touch_network p_clk
+set_dont_touch_network s_clk
+set_max_area 0
+
+set_operating_condition -library "saed90nm_typ" "TYPICAL"
+
+compile -map_effort high -boundary_optimization
+#compile -map_effort high
+
+write -hierarchy -format ddc -output ./synth/netlist/psi_mapped.ddc
+write -hierarchy -format verilog -output ./synth/netlist/psi_netlist.v
+
+report_attribute > ./synth/reports/psi_report1_attribute.txt
+report_area > ./synth/reports/psi_report2_area.txt
+report_constraints -all_violators > ./synth/reports/psi_report3_constraints.txt
+report_timing -path full -delay max -max_paths 1 -nworst -1 > ./synth/reports/psi_report4_timing.txt
+report_power > ./synth/reports/psi_report5_power.txt
