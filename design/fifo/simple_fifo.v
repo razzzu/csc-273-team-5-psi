@@ -1,3 +1,5 @@
+// Ethan Weidman
+
 `define W 31
 `define L 2
 module simple_fifo (in_data, push, pop, out_data, full, empty, clk, rst);

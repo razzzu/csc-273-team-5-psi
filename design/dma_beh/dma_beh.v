@@ -1,3 +1,4 @@
+// Raj Patel
 //This module is NOT for synthesis
 
 module dma_beh #(parameter DSIZE=32, PSIZE=4)(output reg [DSIZE-1:0] data, output reg req, pkt_end,

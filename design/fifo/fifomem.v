@@ -1,3 +1,7 @@
+// Raj Patel
+// Reference: Clifford E. Cummings, Simulation and Synthesis Techniques for Asynchronous FIFO Design
+// http://www.sunburst-design.com/papers/CummingsSNUG2002SJ_FIFO1.pdf
+
 module fifomem #(parameter DSIZE=32, ASIZE=32)
                 (output reg [DSIZE-1:0] rdata, 
                 input [DSIZE-1:0] wdata,

@@ -1,3 +1,5 @@
+// Raj Patel
+
 module com_fsm (output reg grant, w_en,
                 input req, wclk, wrst_n);
     

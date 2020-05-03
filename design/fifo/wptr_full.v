@@ -1,3 +1,7 @@
+// Raj Patel
+// Reference: Clifford E. Cummings, Simulation and Synthesis Techniques for Asynchronous FIFO Design
+// http://www.sunburst-design.com/papers/CummingsSNUG2002SJ_FIFO1.pdf
+
 module wptr_full #(parameter ASIZE=32)
                     (output reg wfull,
                     output reg [ASIZE-1:0] waddr,

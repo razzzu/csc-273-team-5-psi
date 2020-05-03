@@ -1,3 +1,7 @@
+// Raj Patel
+// Reference: Clifford E. Cummings, Simulation and Synthesis Techniques for Asynchronous FIFO Design
+// http://www.sunburst-design.com/papers/CummingsSNUG2002SJ_FIFO1.pdf
+
 `include "sync_ptr.v"
 `include "wptr_full.v"
 `include "rptr_empty.v"
