@@ -1,9 +1,11 @@
+// Raj Patel & Ethan Weidman
+
 `include "psi.v"
 `include "dma_beh.v"
 
 module psi_fixture;
 
-    parameter DSIZE=32, ASIZE=4, PSIZE=2;
+    parameter DSIZE=32, ASIZE=4, PSIZE=64;
     
     integer i, j;
     integer dma_compare_index, dwords, pkts;
@@ -45,29 +47,57 @@ module psi_fixture;
         #1 dma_compare_data = dma.mem[dma_compare_index][DSIZE-1:0];
         n_rst = 1'b1;
         #1 send_packet(.n(2));
-        // #512 $finish;
+        back_to_back_transaction(.n_pack(2), .n_trans(3));
+        wait_till_s_idle;
+        send_till_full;
+        wait_till_s_idle;
+         #4096 $finish;
     end
-    initial
-        #4096 $finish;
 
 
-    task fill_dma;
+    task fill_dma;  //Fill DMA mem with known data, this will be used to compare actual results
     begin
-        for (i=0; i<PSIZE; i=i+1) begin
-            // dma.mem[i][DSIZE] = ($random%2) == 1;
-            dma.mem[i][DSIZE] = 1'b1;
-            dma.mem[i][DSIZE-1:0] = $random;
-            // dma.mem[i][DSIZE] = &dma.mem[i][1:0];
+        for (i=0; i<PSIZE-1; i=i+1) begin
+            {dma.mem[i][DSIZE],dma.mem[i][DSIZE-1:0]} = {$random%2,$random};
             $display("mem[%d]: %h", i,dma.mem[i]);
         end    
+        {dma.mem[i][DSIZE],dma.mem[i][DSIZE-1:0]} = {1'b1,$random};
+        $display("mem[%d]: %h", i,dma.mem[i]);
     end
     endtask
 
-    task send_packet (input integer n);
+    task send_till_full; //Keep sending packets till the fifo is full
+    begin
+        en=1'b1;
+        while(ready) #5;
+        en=1'b0; 
+    end
+    endtask
+
+    task wait_till_s_idle;  //Wait till the fifo is empty and the serial side reutrns to idle
+    begin
+        en=1'b0;
+        while(!dut.serial_com.state == `IDLE) #5;
+        $display("--------------- Serial IDLE ---------------");
+    end
+    endtask
+
+    task back_to_back_transaction (input integer n_pack, n_trans);  //To test the grant, dealy of 2 cycles before next transaction
+    begin
+        while(n_trans) begin
+            while (!dma.idle) @(posedge p_clk);
+            send_packet(.n(n_pack));  
+            n_trans = n_trans-1;
+        end
+    end
+    endtask
+
+    task send_packet (input integer n);  //Send n packets in one transaction
     begin
         en=1'b1;
         if (n==1) begin
-            @(posedge p_clk) en=1'b0;
+            while (dma.idle) #3 en=1'b1;
+            en=1'b0;
         end
         else 
         begin
