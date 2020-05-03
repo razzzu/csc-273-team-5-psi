@@ -3,3 +3,6 @@ csrc
 .accessed
 ucli.key
 vcdplus.vpd
+command.log
+default.svf
+work

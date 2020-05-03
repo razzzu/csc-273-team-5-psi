@@ -1,0 +1,8 @@
+set designer "Raj & Ethan"
+set company "CSUS"
+set search_path [list . /usr/pkg/syn/libraries/syn \
+/netdisk/tmp/saed/SAED90_EDK/SAED_EDK90nm/Digital_Standard_cell_Library/synopsys/models ]
+set link_library [list  saed90nm_typ.db]
+set target_library [list saed90nm_typ.db] 
+set symbol_library [list /netdisk/tmp/saed/SAED90_EDK/SAED_EDK90nm_REF/references/PARSER/ref/icons/saed90nm.sdb] 
+define_design_lib WORK -path ./work
