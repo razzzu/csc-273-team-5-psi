@@ -31,6 +31,11 @@ pi: sim/pi_test
 
 si: sim/serial_com
 
+psi: sim/psi
+
+sim/psi: design/dma_beh/dma_beh.v design/experiments/beh_fifo.v design/pi design/si design/fifo design/
+	vcs -full64 -o sim/psi +incdir+./design/+./design/dma_beh/+./design/pi/+./design/si/+./design/fifo/ testbench/psi_fixture.v
+
 sim/fifo: design/fifo/fifo.v testbench/simple_fifo_fixture.v
 	vcs -full64 +lint=all -o sim/fifo +incdir+./design/fifo/ testbench/fifo_fixture.v
 
