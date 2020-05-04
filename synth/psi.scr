@@ -38,6 +38,7 @@ compile -map_effort high -boundary_optimization -incremental_mapping
 write -hierarchy -format ddc -output ./synth/netlist/psi_mapped.ddc
 write -hierarchy -format verilog -output ./synth/netlist/psi_netlist.v
 
+check_design > ./synth/reports/psi_report0_check_design.txt
 report_attribute > ./synth/reports/psi_report1_attribute.txt
 report_area > ./synth/reports/psi_report2_area.txt
 report_constraints -all_violators > ./synth/reports/psi_report3_constraints.txt

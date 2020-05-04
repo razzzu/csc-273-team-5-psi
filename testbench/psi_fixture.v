@@ -51,7 +51,9 @@ module psi_fixture;
         wait_till_s_idle;
         send_till_full;
         wait_till_s_idle;
-         #4096 $finish;
+         #4096 
+         if(dwords==dma.count) $display("Sent DWORDS:%d, Recieved DWORDS:%d \n---------------------! ALL DWORDS RECIEVED SUCCESSFULLY !-------------------------------\n", dma.count, dwords);
+         $finish;
     end
 
 
