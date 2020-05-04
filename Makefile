@@ -29,7 +29,7 @@ PSI_FILES = design/psi.v design/pi/*.v design/si/*.v design/fifo/*.v
 psi: sim/psi
 
 report: report.txt
-	echo "report finished, no coverage since it is html"
+	echo "report finished, no coverage in the text file since coverage is html"
 
 report.txt: sim/psi synth
 	echo "// Group 5: Raj & Ethan" > report.txt
@@ -54,13 +54,13 @@ report.txt: sim/psi synth
 
 	echo "" >> report.txt
 	echo " -- SIMULATION RESULTS --" >> report.txt
-	sim/psi >> report.txt
+	cat sim/psi_sim_results.log >> report.txt
 
 	echo "" >> report.txt
 	echo " -- SYNTHESIS SCRIPT --" >> report.txt
 	echo "" >> report.txt
 	cat synth/psi.scr >> report.txt
-	for i in ls synth/reports/*.txt; do \
+	for i in synth/reports/*.txt; do \
 		echo "$$i" >> report.txt; \
 		echo "" >> report.txt; \
 		cat $$i >> report.txt; \
@@ -86,7 +86,7 @@ si: sim/serial_com
 
 sim/psi: $(PSI_FIXTURE_FILES)  $(PSI_FILES)
 	$(VCS) $(VFLAGS) $(COV) -o $@ +incdir+$(subst $(space),+,$(dir $^)) $<
-	$@ $(COV)
+	$@ $(COV) | tee $@_sim_results.log
 ifneq "$(COV)" ""
 	urg $(F64) -dir $@.vdb -report $@.urgReport
 endif
