@@ -1,3 +1,4 @@
+// Raj Patel
 module sync_ptr_2_clk #(parameter ASIZE=32)
                 (output reg [ASIZE:0] sync_ptr,
                 input [ASIZE:0] ptr,

@@ -1,3 +1,4 @@
+// Raj Patel
 //This module is NOT Synthesisable
 module beh_fifo #(parameter DSIZE=8, ASIZE=4) 
                 (output [DSIZE-1:0] rdata, 

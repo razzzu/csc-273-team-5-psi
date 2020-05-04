@@ -5,6 +5,9 @@ VFLAGS = -debug_access
 null  :=
 space := $(null) #
 
+PSI_FIXTURE_FILES = testbench/psi_fixture.v design/dma_beh/dma_beh.v design/experiments/beh_fifo.v
+PSI_FILES = design/psi.v design/pi/*.v design/si/*.v design/fifo/*.v
+
 # to add a new target just follow this template if you want a `make <command>`
 # <command>: <directories>/<filename>
 # <directories>/<filename>: [<dependant file> [<dependant file> ...]]
@@ -25,6 +28,44 @@ space := $(null) #
 
 psi: sim/psi
 
+report: report.txt
+	echo "report finished, no coverage since it is html"
+
+report.txt: sim/psi synth
+	echo "// Group 5: Raj & Ethan" > report.txt
+
+	echo "" >> report.txt
+	echo " -- DESIGN CODE --" >> report.txt
+	for i in $(PSI_FILES); do \
+		echo " -- DESIGN FILE: $$i --" >> report.txt; \
+		echo "" >> report.txt; \
+		cat $$i >> report.txt; \
+		echo "" >> report.txt; \
+	done
+
+	echo "" >> report.txt
+	echo " -- TESTBENCH CODE --" >> report.txt
+	for i in $(PSI_FIXTURE_FILES); do \
+		echo " -- TESTBENCH FILE/CODE: $$i --" >> report.txt; \
+		echo "" >> report.txt; \
+		cat $$i >> report.txt; \
+		echo "" >> report.txt; \
+	done
+
+	echo "" >> report.txt
+	echo " -- SIMULATION RESULTS --" >> report.txt
+	sim/psi >> report.txt
+
+	echo "" >> report.txt
+	echo " -- SYNTHESIS SCRIPT --" >> report.txt
+	echo "" >> report.txt
+	cat synth/psi.scr >> report.txt
+	for i in ls synth/reports/*.txt; do \
+		echo "$$i" >> report.txt; \
+		echo "" >> report.txt; \
+		cat $$i >> report.txt; \
+		echo "" >> report.txt; \
+	done
 synth:
 	dc_shell -no_gui -x "source synth/psi.scr; check_design; exit" -output_log_file synth/psi.log
 
@@ -43,8 +84,7 @@ pi: sim/pi_test
 
 si: sim/serial_com
 
-sim/psi: testbench/psi_fixture.v design/dma_beh/dma_beh.v design/experiments/beh_fifo.v design/pi/*.v design/si/*.v design/fifo/*.v design/psi.v
-	# echo $^
+sim/psi: $(PSI_FIXTURE_FILES)  $(PSI_FILES)
 	$(VCS) $(VFLAGS) $(COV) -o $@ +incdir+$(subst $(space),+,$(dir $^)) $<
 	$@ $(COV)
 ifneq "$(COV)" ""
@@ -82,4 +122,4 @@ clean:
 	find sim -mindepth 1 ! -name .gitignore -delete
 	find synth -mindepth 1 ! \( -name .gitignore -or -name \*scr \) -and ! -type d -delete
 	find . -maxdepth 1 \( -name command.log -or -name default.svf \) -delete
-	rm -rf csrc work WORK*
+	rm -rf csrc work WORK* report.txt

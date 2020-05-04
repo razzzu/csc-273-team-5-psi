@@ -1,3 +1,5 @@
+// Ethan Weidman
+
 `include "serial_com.v"
 
 module serial_com_fixture;
