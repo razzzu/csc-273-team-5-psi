@@ -26,8 +26,6 @@ PSI_FILES = design/psi.v design/pi/*.v design/si/*.v design/fifo/*.v
 
 # dc_shell -no_gui -x "source synth/serial_com.scr; exit" -output_log_file synth/serial_com.log
 
-psi: sim/psi
-
 report: report.txt
 	echo "report finished, no coverage in the text file since coverage is html"
 
@@ -71,6 +69,8 @@ synth:
 
 synth_shell:
 	dc_shell -no_gui -x "source synth/psi.scr;" -output_log_file synth/psi.log
+
+psi: sim/psi
 
 simple_fifo: sim/simple_fifo
 
