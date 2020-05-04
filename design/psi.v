@@ -2,7 +2,7 @@
 `include "serial_com.v"
 `include "fifo.v"
 
-module psi #(parameter DSIZE=32, ASIZE=4) (output s_data, grant, ready,
+module psi #(parameter DSIZE=32, ASIZE=5) (output s_data, grant, ready,
                                             input [DSIZE-1:0] data,      
                                             input req, pkt_end, p_clk, s_clk, n_rst);
 

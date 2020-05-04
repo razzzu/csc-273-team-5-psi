@@ -5,6 +5,8 @@ elaborate psi
 
 #read_file -format verilog {./design/fifo/fifo.v}
 set current_design psi
+ungroup-flatten -all
+uniquify
 
 link
 
@@ -29,9 +31,9 @@ set_dont_touch_network s_clk
 set_max_area 0
 
 set_operating_condition -library "saed90nm_typ" "TYPICAL"
+set_flatten true -effort high -phase fasle -design [get_designs fifomem*]
 
-compile -map_effort high -boundary_optimization
-#compile -map_effort high
+compile -map_effort high -boundary_optimization -incremental_mapping
 
 write -hierarchy -format ddc -output ./synth/netlist/psi_mapped.ddc
 write -hierarchy -format verilog -output ./synth/netlist/psi_netlist.v

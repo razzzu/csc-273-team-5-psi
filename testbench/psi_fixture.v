@@ -5,7 +5,7 @@
 
 module psi_fixture;
 
-    parameter DSIZE=32, ASIZE=4, PSIZE=64;
+    parameter DSIZE=32, ASIZE=5, PSIZE=128;
     
     integer i, j;
     integer dma_compare_index, dwords, pkts;
